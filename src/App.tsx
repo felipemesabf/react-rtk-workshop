@@ -1,35 +1,77 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import {
+  CartState,
+  selectCarts,
+  useGetCartsQuery,
+} from "./store/reducer/cartsSlice";
+import {
+  MoviesState,
+  SelectMovies,
+  useGetMoviesQuery,
+} from "./store/reducer/moviesSlice";
+import {
+  ProductState,
+  selectProduct,
+  selectProducts,
+  useGetProductsQuery,
+} from "./store/reducer/productSlice";
+import { useAppSelector } from "./store/store";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const {
+    isLoading: isLoadingProducts,
+    isSuccess: isSuccessProducts,
+    isError: isErrorProducts,
+  } = useGetProductsQuery(undefined);
+  const {
+    isLoading: isLoadingCarts,
+    isSuccess: isSuccessCarts,
+    isError: isErrorCarts,
+  } = useGetCartsQuery(undefined);
+
+  const {
+    isLoading: isLoadingMovies,
+    isSuccess: isSuccessMovies,
+    isError: isErrorMovies,
+  } = useGetMoviesQuery(undefined);
+
+  const products = useAppSelector(selectProducts);
+  const carts = useAppSelector(selectCarts);
+  const movies = useAppSelector(SelectMovies);
+  const product = useAppSelector(selectProduct(2));
+
+  console.log("products", products);
+  console.log("product", product);
+
+  const showProductList = (products: Array<ProductState>) => {
+    const productList = products.map((product) => <li>{product.title}</li>);
+
+    return <ul>{productList}</ul>;
+  };
+  const showCartList = (products: Array<CartState>) => {
+    const productList = products.map((cart) => <li>{cart.userId}</li>);
+
+    return <ul>{productList}</ul>;
+  };
+  const showMovieList = (products: Array<MoviesState>) => {
+    const productList = products.map((movie) => <li>{movie.title}</li>);
+
+    return <ul>{productList}</ul>;
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {isLoadingProducts && <h1>Loading product</h1>}
+      {isSuccessProducts && showProductList(products)}
+      {isErrorProducts && <h1>{isErrorProducts}</h1>}
+      {isLoadingCarts && <h1>Loading Carts</h1>}
+      {isSuccessCarts && showCartList(carts)}
+      {isErrorCarts && <h1>{isErrorCarts}</h1>}
+      {isLoadingMovies && <h1>Loading Movies</h1>}
+      {isSuccessMovies && showMovieList(movies)}
+      {isErrorMovies && <h1>{isErrorCarts}</h1>}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
