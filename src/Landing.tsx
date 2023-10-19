@@ -1,10 +1,5 @@
-import React from "react";
-import {
-  ProductState,
-  selectProduct,
-  selectProducts,
-  useGetProductsQuery,
-} from "./store/reducer/productSlice";
+import { useTranslation } from "react-i18next";
+import { Menu } from "./Menu";
 import {
   CartState,
   selectCart,
@@ -17,9 +12,13 @@ import {
   SelectMovies,
   useGetMoviesQuery,
 } from "./store/reducer/moviesSlice";
+import {
+  ProductState,
+  selectProduct,
+  selectProducts,
+  useGetProductsQuery,
+} from "./store/reducer/productSlice";
 import { useAppSelector } from "./store/store";
-import { Menu } from "./Menu";
-import { useTranslation } from "react-i18next";
 
 const Landing = () => {
   const { t } = useTranslation();
