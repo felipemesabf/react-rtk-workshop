@@ -2,6 +2,8 @@ import {
   createEntityAdapter,
   createSelector,
   createSlice,
+  EntityId,
+  PayloadAction,
 } from "@reduxjs/toolkit";
 
 import { RootState } from "../store";
@@ -22,7 +24,14 @@ export interface Product {
   quantity: number;
 }
 
-const cartAdapter = createEntityAdapter<CartState>({
+export interface Entities<T> {
+  id: EntityId;
+  data: T;
+}
+
+export type CartEntity = Entities<CartState | CartState[]>;
+
+const cartAdapter = createEntityAdapter<CartEntity>({
   selectId: (cart) => cart.id,
 });
 
@@ -34,7 +43,20 @@ const extendedAuthApi = apiSlice.injectEndpoints({
       query: () => ({
         url: "carts",
       }),
-      transformResponse: (response: CartState[]): CartState[] => response,
+      transformResponse: (response: CartState[]): CartEntity => ({
+        id: "carts",
+        data: response,
+      }),
+    }),
+    getCart: builder.query({
+      query: (cartId: number) => ({
+        url: `carts/${cartId}`,
+        params: {},
+      }),
+      transformResponse: (response: CartState): CartEntity => ({
+        id: "cart",
+        data: response,
+      }),
     }),
   }),
 });
@@ -46,22 +68,31 @@ export const cartSlice = createSlice({
   extraReducers: (builder) => {
     builder.addMatcher(
       extendedAuthApi.endpoints.getCarts.matchFulfilled,
-      (state, { payload }) => {
-        cartAdapter.setAll(state, payload);
+      (state, { payload }: PayloadAction<CartEntity>) => {
+        cartAdapter.setOne(state, payload);
+      }
+    );
+    builder.addMatcher(
+      extendedAuthApi.endpoints.getCart.matchFulfilled,
+      (state, { payload }: PayloadAction<CartEntity>) => {
+        cartAdapter.setOne(state, payload);
       }
     );
   },
 });
 
 // Reducers
-export const { useGetCartsQuery } = extendedAuthApi;
+export const { useGetCartsQuery, useGetCartQuery } = extendedAuthApi;
 
 // Selectors
-const { selectById, selectAll } = cartAdapter.getSelectors();
+const { selectById } = cartAdapter.getSelectors();
 
-const any = (state: RootState) => state.cart;
+const cartState = (state: RootState) => state.cart;
 
-export const selectCart = (id: number) =>
-  createSelector(any, (state) => selectById(state, id));
+export const selectCart = createSelector(cartState, (state) =>
+  selectById(state, "cart")
+);
 
-export const selectCarts = createSelector(any, (state) => selectAll(state));
+export const selectCarts = createSelector(cartState, (state) =>
+  selectById(state, "carts")
+);
