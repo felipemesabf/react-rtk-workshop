@@ -1,0 +1,9 @@
+{
+  "app": {
+    "products": "Productos",
+    "product": "Producto",
+    "carts": "Carros",
+    "cart": "Carro",
+    "movies": "Peliculas"
+  }
+}

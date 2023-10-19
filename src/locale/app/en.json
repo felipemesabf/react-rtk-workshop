@@ -1,0 +1,9 @@
+{
+  "app": {
+    "products": "Products",
+    "product": "Product",
+    "carts": "Carts",
+    "cart": "Cart",
+    "movies": "Movies"
+  }
+}
