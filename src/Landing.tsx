@@ -19,9 +19,14 @@ import {
   useGetProductsQuery,
 } from "./store/reducer/productSlice";
 import { useAppSelector } from "./store/store";
+import { useNavigate } from "react-router-dom";
 
 const Landing = () => {
+  console.log("me renderise");
+
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
   const {
     isLoading: isLoadingProducts,
     isSuccess: isSuccessProducts,
@@ -76,6 +81,7 @@ const Landing = () => {
 
   return (
     <>
+      <button onClick={() => navigate("juan")}>send</button>
       <Menu />
       <h1>{t("products")}</h1>
       {isLoadingProducts && <h1>Loading product</h1>}

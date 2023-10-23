@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { I18nextProvider, useTranslation } from "react-i18next";
 import "./App.css";
-import Landing from "./Landing";
 import i18n, { loadLanguage } from "./locale/i18n";
+import Routing from "./routes";
 
 function App() {
   const { i18n: i18nGlobal } = useTranslation();
@@ -15,7 +15,7 @@ function App() {
 
   return (
     <I18nextProvider i18n={i18n} defaultNS={appNameSpace}>
-      <Landing />
+      <Routing />
     </I18nextProvider>
   );
 }
