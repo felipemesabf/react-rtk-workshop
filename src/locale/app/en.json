@@ -4,6 +4,7 @@
     "product": "Product",
     "carts": "Carts",
     "cart": "Cart",
-    "movies": "Movies"
+    "movies": "Movies",
+    "movie": "Movie"
   }
 }

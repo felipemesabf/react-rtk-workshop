@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const localApiSlice = createApi({
   reducerPath: "localApi",
-  tagTypes: ["localApi"],
+  tagTypes: ["localApi", "movies", "movie"],
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:3000/",
     prepareHeaders: (headers) => {

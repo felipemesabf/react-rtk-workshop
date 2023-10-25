@@ -1,30 +1,33 @@
 import { useTranslation } from "react-i18next";
-import { Menu } from "./Menu";
+import { useNavigate } from "react-router-dom";
+import { Menu } from "../component/Menu";
+import MovieForm from "../component/MovieForm";
 import {
   CartState,
   selectCart,
   selectCarts,
   useGetCartQuery,
   useGetCartsQuery,
-} from "./store/reducer/cartsSlice";
+} from "../store/reducer/cartsSlice";
 import {
   MoviesState,
-  SelectMovies,
+  selectMovies,
+  selectSelectedMovie,
+  setSelectedMovie,
   useGetMoviesQuery,
-} from "./store/reducer/moviesSlice";
+  useRemoveMovieMutation,
+} from "../store/reducer/moviesSlice";
 import {
   ProductState,
   selectProduct,
   selectProducts,
   useGetProductsQuery,
-} from "./store/reducer/productSlice";
-import { useAppSelector } from "./store/store";
-import { useNavigate } from "react-router-dom";
+} from "../store/reducer/productSlice";
+import { useAppDispatch, useAppSelector } from "../store/store";
 
 const Landing = () => {
-  console.log("me renderise");
-
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const {
@@ -50,12 +53,25 @@ const Landing = () => {
     isError: isErrorMovies,
   } = useGetMoviesQuery(undefined);
 
+  const [removeMovie] = useRemoveMovieMutation();
+
   const products = useAppSelector(selectProducts);
   const product = useAppSelector(selectProduct(2));
 
   const carts = useAppSelector(selectCarts);
   const cart = useAppSelector(selectCart);
-  const movies = useAppSelector(SelectMovies);
+  const movies = useAppSelector(selectMovies);
+
+  const selectedMovie = useAppSelector(selectSelectedMovie);
+
+  const handleSelectedMovie = (movie: MoviesState) => {
+    dispatch(setSelectedMovie(movie));
+  };
+
+  const handleDeleteMovie = (movie: MoviesState) => removeMovie(movie).unwrap();
+
+  const handleDescriptionMovie = ({ id }: MoviesState) =>
+    navigate(`movie/${id}`);
 
   const showProductList = (products: Array<ProductState>) => {
     const productList = products.map((product) => (
@@ -73,7 +89,14 @@ const Landing = () => {
   };
   const showMovieList = (products: Array<MoviesState>) => {
     const productList = products.map((movie) => (
-      <li key={movie.title}>{movie.title}</li>
+      <li key={movie.title}>
+        {movie.title}-{movie.director}
+        <button onClick={() => handleSelectedMovie(movie)}>Update</button>
+        <button onClick={() => handleDeleteMovie(movie)}>Delete</button>
+        <button onClick={() => handleDescriptionMovie(movie)}>
+          Description
+        </button>
+      </li>
     ));
 
     return <ul>{productList}</ul>;
@@ -83,6 +106,13 @@ const Landing = () => {
     <>
       <button onClick={() => navigate("juan")}>send</button>
       <Menu />
+      <h1>Form</h1>
+      <MovieForm preData={selectedMovie} />
+      <h1>{t("movies")}</h1>
+      {isLoadingMovies && <h1>Loading Movies</h1>}
+      {isSuccessMovies && showMovieList(movies)}
+      {isErrorMovies && <h1>{isErrorMovies}</h1>}
+      <hr />
       <h1>{t("products")}</h1>
       {isLoadingProducts && <h1>Loading product</h1>}
       {isSuccessProducts && showProductList(products)}
@@ -97,10 +127,6 @@ const Landing = () => {
       {isLoadingCart && <h1>Loading Cart</h1>}
       {isSuccessCart && JSON.stringify(cart?.data)}
       {isErrorCart && <h1>{isErrorCart}</h1>}
-      <h1>{t("movies")}</h1>
-      {isLoadingMovies && <h1>Loading Movies</h1>}
-      {isSuccessMovies && showMovieList(movies)}
-      {isErrorMovies && <h1>{isErrorCarts}</h1>}
     </>
   );
 };

@@ -1,4 +1,7 @@
-const Layout = ({ children }: any) => {
+interface LayoutProps {
+  children: React.ReactNode;
+}
+const Layout = ({ children }: LayoutProps) => {
   const token = localStorage.getItem("token");
 
   if (!token) {
@@ -13,11 +16,8 @@ const Layout = ({ children }: any) => {
         alignItems: "center",
       }}
     >
-      <div style={{ background: "green" }}>
-        Esto tiene que aparecer en todas las pantallas
-      </div>
-
-      <div style={{ background: "red" }}>{children}</div>
+      <div>Esto tiene que aparecer en todas las pantallas</div>
+      <div>{children}</div>
     </div>
   );
 };

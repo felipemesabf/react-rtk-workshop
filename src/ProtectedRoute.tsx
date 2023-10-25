@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Layout from "./Layout";
+import Layout from "./component/Layout";
 
 const ProtectedRoutes = () => {
   const token = localStorage.getItem("token");

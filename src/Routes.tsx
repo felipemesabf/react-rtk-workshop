@@ -1,9 +1,10 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Juan from "./Juan";
-import Landing from "./Landing";
-import Maria from "./Maria";
+import Juan from "./pages/Juan";
+import Landing from "./pages/Landing";
+import Maria from "./pages/Maria";
 import NotFound from "./NotFound";
 import ProtectedRoutes from "./ProtectedRoute";
+import Details from "./pages/Details";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -14,10 +15,14 @@ const router = createBrowserRouter([
         element: <Landing />,
       },
       {
-        path: "juan",
-        element: <Juan />,
+        path: "movie/:id",
+        element: <Details />,
       },
     ],
+  },
+  {
+    path: "juan",
+    element: <Juan />,
   },
   {
     path: "maria",

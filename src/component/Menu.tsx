@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { supportedLanguages } from "./locale/i18n";
+import { supportedLanguages } from "../locale/i18n";
 
 export const Menu = () => {
   const { i18n } = useTranslation();
