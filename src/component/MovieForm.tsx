@@ -20,8 +20,8 @@ interface MovieFormProps {
 }
 
 const MovieForm = ({ preData }: MovieFormProps) => {
-  const [createMovie] = useSetMovieMutation();
-  const [updateMovie] = useUpdateMovieMutation();
+  const [createMovie, { isLoading: createLoading }] = useSetMovieMutation();
+  const [updateMovie, { isLoading: updateLoading }] = useUpdateMovieMutation();
   const [isEdit, setIsEdit] = useState(false);
   const { register, handleSubmit, formState, reset } = useForm<formValues>({
     defaultValues: initialValues,
@@ -64,7 +64,13 @@ const MovieForm = ({ preData }: MovieFormProps) => {
       />
       {formState.errors.director && <span>This field is required</span>}
 
-      <button type="submit">{isEdit ? "Editar" : "Crear"}</button>
+      <button type="submit">
+        {createLoading || updateLoading
+          ? "loading"
+          : isEdit
+          ? "Editar"
+          : "Crear"}
+      </button>
     </form>
   );
 };

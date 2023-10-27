@@ -139,7 +139,6 @@ export const {
 } = extendedAuthApi;
 
 //Actions
-
 export const { removeSelectedMovie, setSelectedMovie } = moviesSlice.actions;
 
 // Selectors

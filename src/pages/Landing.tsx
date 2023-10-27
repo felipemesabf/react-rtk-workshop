@@ -73,6 +73,9 @@ const Landing = () => {
   const handleDescriptionMovie = ({ id }: MoviesState) =>
     navigate(`movie/${id}`);
 
+  const handleDescriptionIntervalMovie = ({ id }: MoviesState) =>
+    navigate(`movie/interval/${id}`);
+
   const showProductList = (products: Array<ProductState>) => {
     const productList = products.map((product) => (
       <li key={product.title}>{product.title}</li>
@@ -89,12 +92,18 @@ const Landing = () => {
   };
   const showMovieList = (products: Array<MoviesState>) => {
     const productList = products.map((movie) => (
-      <li key={movie.title}>
+      <li
+        key={movie.title}
+        style={{ display: "flex", gap: "5px", marginBottom: "5px" }}
+      >
         {movie.title}-{movie.director}
         <button onClick={() => handleSelectedMovie(movie)}>Update</button>
         <button onClick={() => handleDeleteMovie(movie)}>Delete</button>
         <button onClick={() => handleDescriptionMovie(movie)}>
           Description
+        </button>
+        <button onClick={() => handleDescriptionIntervalMovie(movie)}>
+          Description interval
         </button>
       </li>
     ));

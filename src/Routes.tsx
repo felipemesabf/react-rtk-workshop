@@ -5,6 +5,7 @@ import Maria from "./pages/Maria";
 import NotFound from "./NotFound";
 import ProtectedRoutes from "./ProtectedRoute";
 import Details from "./pages/Details";
+import DetailsInterval from "./pages/DetailsInterval";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
       {
         path: "movie/:id",
         element: <Details />,
+      },
+      {
+        path: "movie/interval/:id",
+        element: <DetailsInterval />,
       },
     ],
   },
