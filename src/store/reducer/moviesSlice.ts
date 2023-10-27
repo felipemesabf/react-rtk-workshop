@@ -141,15 +141,17 @@ export const { removeSelectedMovie, setSelectedMovie } = moviesSlice.actions;
 // Selectors
 const { selectById, selectAll } = moviesAdapter.getSelectors();
 
-const any = (state: RootState) => state.movies;
+const moviesState = (state: RootState) => state.movies;
 
 export const selectMovieById = (id: number) =>
-  createSelector(any, (state) => selectById(state, id));
+  createSelector(moviesState, (state) => selectById(state, id));
 
-export const selectMovies = createSelector(any, (state) => selectAll(state));
+export const selectMovies = createSelector(moviesState, (state) =>
+  selectAll(state)
+);
 
 export const selectSelectedMovie = createSelector(
-  any,
+  moviesState,
   (state) => state.selectedMovie
 );
-export const selectMovie = createSelector(any, (state) => state.movie);
+export const selectMovie = createSelector(moviesState, (state) => state.movie);
