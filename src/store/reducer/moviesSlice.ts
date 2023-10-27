@@ -28,18 +28,16 @@ const initialState = moviesAdapter.getInitialState<{
 
 const extendedAuthApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getMovies: builder.query({
+    getMovies: builder.query<void, Array<MoviesState>>({
       query: () => ({
         url: "movies",
       }),
-      transformResponse: (response: MoviesState[]): MoviesState[] => response,
       providesTags: ["movies"],
     }),
     getMovie: builder.query({
       query: (param) => ({
         url: `movies/${param}`,
       }),
-      transformResponse: (response: MoviesState): MoviesState => response,
       providesTags: ["movie"],
     }),
     setMovie: builder.mutation<MoviesState, Omit<MoviesState, "id">>({
@@ -48,7 +46,6 @@ const extendedAuthApi = apiSlice.injectEndpoints({
         method: "POST",
         body,
       }),
-      transformResponse: (response: MoviesState): MoviesState => response,
       invalidatesTags: ["movies"],
     }),
     updateMovie: builder.mutation<MoviesState, MoviesState>({
@@ -57,7 +54,6 @@ const extendedAuthApi = apiSlice.injectEndpoints({
         method: "PUT",
         body,
       }),
-      transformResponse: (response: MoviesState): MoviesState => response,
       invalidatesTags: ["movies"],
     }),
     removeMovie: builder.mutation<{ message: string }, Pick<MoviesState, "id">>(
