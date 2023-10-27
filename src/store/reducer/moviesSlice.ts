@@ -28,7 +28,7 @@ const initialState = moviesAdapter.getInitialState<{
 
 const extendedAuthApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getMovies: builder.query<void, Array<MoviesState>>({
+    getMovies: builder.query<Array<MoviesState>, void>({
       query: () => ({
         url: "movies",
       }),
@@ -76,16 +76,41 @@ export const moviesSlice = createSlice({
   initialState,
   reducers: {
     setSelectedMovie: (state, { payload }: PayloadAction<MoviesState>) => {
-      state.selectedMovie = payload;
+      // ❌ ERROR: does not actually mutate or return anything new!
+      // state.selectedMovie = payload;
+
+      // ✅ CORRECT: returns a new value to replace the old one
+      return {
+        ...state,
+        selectedMovie: payload,
+      };
     },
     removeSelectedMovie: (state) => {
-      state.selectedMovie = undefined;
+      // ✅ CORRECT: returns a new value to replace the old one
+      return {
+        ...state,
+        selectedMovie: undefined,
+      };
     },
     setMovie: (state, { payload }: PayloadAction<MoviesState>) => {
-      state.movie = payload.id;
+      // ❌ ERROR: does not actually mutate or return anything new!
+      // state.movie = payload.id;
+
+      // ✅ CORRECT: returns a new value to replace the old one
+      return {
+        ...state,
+        movie: payload.id,
+      };
     },
     removeMovie: (state) => {
-      state.movie = undefined;
+      // ❌ ERROR: does not actually mutate or return anything new!
+      // state.movie = undefined;
+
+      // ✅ CORRECT: returns a new value to replace the old one
+      return {
+        ...state,
+        movie: undefined,
+      };
     },
   },
   extraReducers: (builder) => {
