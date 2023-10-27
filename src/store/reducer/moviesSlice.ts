@@ -3,6 +3,7 @@ import {
   createEntityAdapter,
   createSelector,
   createSlice,
+  current,
 } from "@reduxjs/toolkit";
 
 import apiSlice from "../api/localApiSlice";
@@ -117,6 +118,9 @@ export const moviesSlice = createSlice({
     builder.addMatcher(
       extendedAuthApi.endpoints.getMovies.matchFulfilled,
       (state, { payload }) => {
+        // ✅ CORRECT: logs a plain JS copy of the current data
+        console.log(current(state));
+
         moviesAdapter.setAll(state, payload);
       }
     );
