@@ -1,5 +1,5 @@
 import React from "react";
-import { useGetMovieQuery } from "../store/reducer/moviesSlice";
+import { useGetMovieQuery } from "../store/feature/moviesSlice";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 

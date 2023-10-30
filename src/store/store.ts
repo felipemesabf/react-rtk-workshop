@@ -1,11 +1,11 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { useDispatch, useSelector } from "react-redux";
 import type { TypedUseSelectorHook } from "react-redux";
-import { productSlice } from "./reducer/productSlice";
+import { useDispatch, useSelector } from "react-redux";
 import apiSlice from "./api/apiSlice";
-import { cartSlice } from "./reducer/cartsSlice";
 import localApiSlice from "./api/localApiSlice";
-import { moviesSlice } from "./reducer/moviesSlice";
+import { cartSlice } from "./feature/cartsSlice";
+import { moviesSlice } from "./feature/moviesSlice";
+import { productSlice } from "./feature/productSlice";
 
 const rootReducer = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,

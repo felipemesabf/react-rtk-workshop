@@ -2,7 +2,7 @@ import {
   MoviesState,
   useSetMovieMutation,
   useUpdateMovieMutation,
-} from "../store/reducer/moviesSlice";
+} from "../store/feature/moviesSlice";
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";

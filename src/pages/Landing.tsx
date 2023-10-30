@@ -8,7 +8,7 @@ import {
   selectCarts,
   useGetCartQuery,
   useGetCartsQuery,
-} from "../store/reducer/cartsSlice";
+} from "../store/feature/cartsSlice";
 import {
   MoviesState,
   selectMovies,
@@ -16,13 +16,13 @@ import {
   setSelectedMovie,
   useGetMoviesQuery,
   useRemoveMovieMutation,
-} from "../store/reducer/moviesSlice";
+} from "../store/feature/moviesSlice";
 import {
   ProductState,
   selectProduct,
   selectProducts,
   useGetProductsQuery,
-} from "../store/reducer/productSlice";
+} from "../store/feature/productSlice";
 import { useAppDispatch, useAppSelector } from "../store/store";
 
 const Landing = () => {
